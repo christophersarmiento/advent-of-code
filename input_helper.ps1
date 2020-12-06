@@ -28,4 +28,6 @@ Copy-Item -Path $boilerplate -Destination ((Get-Location).ToString() + "\src\mai
 
 code ($dir + $year);
 
+Start-Process firefox ("https://adventofcode.com/" + $year + "/day/" + $day)
+
 Exit;
