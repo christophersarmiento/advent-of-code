@@ -5,7 +5,9 @@ $day = (Get-Date -Format dd).TrimStart("0"," ");
 
 Set-Location ($dir + $year);
 
-cargo new --bin day-(Get-Date -Format dd);
+$project_name = "day-" + (Get-Date -Format dd).ToString();
+
+cargo new --bin $project_name;
 
 Set-Location ((Get-Location).ToString() + "\day-" + (Get-Date -Format dd));
 
