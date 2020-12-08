@@ -20,37 +20,29 @@ def counter(d:dict, k:str) -> int:
       count += v * counter(d,k)
   return count
 
-def shiny(s:set, d:dict) -> int:
-  count = 0
-  for k,v in d.items():
-    if any(i in s for i in v.keys()):
-      s.add(k)
-      count += 1
-  count += shiny(s,d)
-  return count
+if __name__ == "__main__":
+  bags = {}
+  can_hold_shiny_gold = set([])
 
-bags = {}
-can_hold_shiny_gold = set([])
+  with open("./input.txt") as f:
+    for line in f:
+      line = line.strip().strip(".").split(" bags contain ")
+      bag = line[0]
+      contains = parse_contains(line[1])
+      bags[bag] = contains
 
-with open("./input.txt") as f:
-  for line in f:
-    line = line.strip().strip(".").split(" bags contain ")
-    bag = line[0]
-    contains = parse_contains(line[1])
-    bags[bag] = contains
+      if "shiny gold" in contains:
+        can_hold_shiny_gold.add(bag)
 
-    if "shiny gold" in contains:
-      can_hold_shiny_gold.add(bag)
+  j = 0
+  while j < len(bags):
+    for k, v in bags.items():
+      if any(i in can_hold_shiny_gold for i in v.keys()) and k not in can_hold_shiny_gold:
+        can_hold_shiny_gold.add(k)
+        j = 0
+      else:
+        j += 1
 
-j = 0
-while j < len(bags):
-  for k, v in bags.items():
-    if any(i in can_hold_shiny_gold for i in v.keys()) and k not in can_hold_shiny_gold:
-      can_hold_shiny_gold.add(k)
-      j = 0
-    else:
-      j += 1
-
-bag_to_find = "shiny gold"
-print(f"Part One: {len(can_hold_shiny_gold)}")
-print(f"Part Two: {counter(bags,bag_to_find)}")
+  bag_to_find = "shiny gold"
+  print(f"Part One: {len(can_hold_shiny_gold)}")
+  print(f"Part Two: {counter(bags,bag_to_find)}")
